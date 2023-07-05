@@ -1,0 +1,71 @@
+• Create API for Registration & Login Page.
+-----
+ 
+• Create Web Service for your MVC Project.
+Here, I will create a web service using PHP code. So let’s follow the steps given below:
+
+Step 1: You will download the library from http://sourceforge.net/projects/nusoap/.
+
+Step 2: Run WAMP server, then you will go to www root folder location.
+
+Step 3: Create folder, it’s called “WebServiceSOAP” into www root folder.
+
+Step 4: Paste "lib" folder inside your "www/WebServiceSOAP/" location from Step 1 download files.
+
+Step 5: Create two files “server.php” and “client.php” into WebServiceSOAP folder location.
+
+Step 6: Inside “server.php”, please write the code lines given below:
+
+PHP
+<?php
+//call library 
+require_once ('lib/nusoap.php'); 
+//using soap_server to create server object 
+$server = new soap_server; 
+
+//register a function that works on server 
+$server->register('get_message'); 
+
+// create the function 
+function get_message($your_name) 
+{ 
+if(!$your_name){ 
+return new soap_fault('Client','','Put Your Name!'); 
+} 
+$result = "Welcome to ".$your_name .". Thanks for Your First Web Service Using PHP with SOAP"; 
+return $result; 
+} 
+// create HTTP listener 
+$server->service($HTTP_RAW_POST_DATA); 
+exit(); 
+?>  
+Step 7: After creating “server.php” file, now we will test this server function. Please go to URL & type http://localhost/WebServiceSOAP/server.php?wsdl.
+
+Step 8: Create "client.php" file into WebServiceSOAP folder location. Please find the following code lines:
+
+PHP
+<?php 
+require_once ('lib/nusoap.php'); 
+//Give it value at parameter 
+$param = array( 'your_name' => 'Monotosh Roy'); 
+//Create object that referer a web services 
+$client = new soapclient('http://localhost/WebServiceSOAP/server.php'); 
+//Call a function at server and send parameters too 
+$response = $client->call('get_message',$param); 
+//Process result 
+if($client->fault) 
+{ 
+echo "FAULT: <p>Code: (".$client->faultcode."</p>"; 
+echo "String: ".$client->faultstring; 
+} 
+else 
+{ 
+echo $response; 
+} 
+?> 
+Step 9: Save all codes, then please go to URL and type http://localhost/WebServiceSOAP/client.php.
+
+
+ 
+Create API for Image Uploading.
+----
